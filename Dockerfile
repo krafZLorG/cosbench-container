@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi8/openjdk-8-runtime:1.14-6.1666624659
 
-LABEL org.opencontainers.image.source = "https://github.com/krafZLorG/cosbench-container"
+LABEL org.opencontainers.image.source https://github.com/krafZLorG/cosbench-container
 USER root
 
 RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
