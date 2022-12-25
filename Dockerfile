@@ -7,11 +7,10 @@ RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.
     && microdnf --setopt=tsflags=nodocs install -y unzip netcat which patch \
     && microdnf clean all 
 
-COPY cosbench-start.sh.diff /tmp/
+COPY cosbench.patch /tmp/
 RUN curl -fsSL https://github.com/intel-cloud/cosbench/releases/download/v0.4.2.c4/0.4.2.c4.zip -o /tmp/0.4.2.c4.zip \
     && unzip /tmp/0.4.2.c4.zip -d /tmp \
-    && patch /tmp/0.4.2.c4/cosbench-start.sh /tmp/cosbench-start.sh.diff \
-    && echo "log_level=WARN" >> /tmp/0.4.2.c4/conf/driver_template.conf \
+    && patch -p1 -ruN -d /tmp/0.4.2.c4 -i /tmp/cosbench.patch \
     && rm /tmp/0.4.2.c4/*.bat \
     && mv /tmp/0.4.2.c4 /cosbench \
     && rm -rf /tmp/* 

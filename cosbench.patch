@@ -1,0 +1,40 @@
+diff -ruN 0.4.2.c4/conf/controller.conf patched/conf/controller.conf
+--- 0.4.2.c4/conf/controller.conf	2015-04-08 20:31:40.000000000 +0300
++++ patched/conf/controller.conf	2022-12-25 23:40:43.639355286 +0300
+@@ -1,6 +1,6 @@
+ [controller]
+ drivers = 1
+-log_level = INFO
++log_level = WARN
+ log_file = log/system.log
+ archive_dir = archive
+ 
+diff -ruN 0.4.2.c4/conf/driver_template.conf patched/conf/driver_template.conf
+--- 0.4.2.c4/conf/driver_template.conf	2016-04-27 15:07:48.000000000 +0300
++++ patched/conf/driver_template.conf	2022-12-25 23:40:23.455541510 +0300
+@@ -1,3 +1,4 @@
+ [driver]
+ name=driver
++log_level=WARN
+ url=http://127.0.0.1:18088/driver
+diff -ruN 0.4.2.c4/cosbench-start.sh patched/cosbench-start.sh
+--- 0.4.2.c4/cosbench-start.sh	2016-04-27 15:07:48.000000000 +0300
++++ patched/cosbench-start.sh	2022-12-25 23:39:36.959970246 +0300
+@@ -32,7 +32,7 @@
+ TOMCAT_CONFIG=conf/$SERVICE_NAME-tomcat-server.xml
+ 
+ TOOL="nc"
+-TOOL_PARAMS=""
++TOOL_PARAMS="-N"
+ 
+ #-------------------------------
+ # MAIN
+@@ -43,7 +43,7 @@
+ 
+ echo "Launching osgi framwork ... "
+ 
+-/usr/bin/nohup java -Dcosbench.tomcat.config=$TOMCAT_CONFIG -server -cp main/* org.eclipse.equinox.launcher.Main -configuration $OSGI_CONFIG -console $OSGI_CONSOLE_PORT 1> $BOOT_LOG 2>&1 &
++/usr/bin/nohup java -Dcom.amazonaws.services.s3.disableGetObjectMD5Validation=true -Dcosbench.tomcat.config=$TOMCAT_CONFIG -server -cp main/* org.eclipse.equinox.launcher.Main -configuration $OSGI_CONFIG -console $OSGI_CONSOLE_PORT 1> $BOOT_LOG 2>&1 &
+ 
+ if [ $? -ne 0 ];
+ then
