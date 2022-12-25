@@ -1,15 +1,19 @@
 # How to use this image
 
+```
+docker pull ghcr.io/krafzlorg/cosbench:latest
+```
+
 ## Start local driver and controller
 
 ```
-podman run -d --net host --name cosbench cosbench
+docker run -d --net host --name cosbench ghcr.io/krafzlorg/cosbench:latest
 ```
 
 ## Start driver
 
 ```
-podman run -d --net host --name cosbench-driver localhost/cosbench driver
+docker run -d --net host --name cosbench-driver ghcr.io/krafzlorg/cosbench:latest driver
 ```
 
 ## Start controller
@@ -28,10 +32,11 @@ url = http://127.0.0.1:18088/driver
 ```
 
 ```
-podman run -d --net host --name cosbench-controller \
-  -v ./archive:/cosbench/archive \
-  -v ./log:/cosbench/log \
-  -v ./controller.conf:/cosbench/conf/controller.conf:ro \
-localhost/cosbench controller
-```
+mkdir -p /opt/cosbench/{archive,log}
 
+docker run -d --net host --name cosbench-controller \
+  -v /opt/cosbench/archive:/cosbench/archive \
+  -v /opt/cosbench/log:/cosbench/log \
+  -v /opt/cosbench/controller.conf:/cosbench/conf/controller.conf:ro \
+ghcr.io/krafzlorg/cosbench:latest controller
+```
